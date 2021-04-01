@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { DateRangePicker } from 'react-dates';
-import { fetchHolidays, fetchHoliday, crewOneBench, crewTwoBench, crewThreeBench, crewFourBench, crewFiveBench, fetchUser } from '../../actions';
+import { fetchHolidays, nameToggle, fetchHoliday, crewOneBench, crewTwoBench, crewThreeBench, crewFourBench, crewFiveBench, fetchUser } from '../../actions';
 import { connect } from 'react-redux';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -9,7 +9,7 @@ import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
 class HolidayList extends React.Component {
-    state = { startDate: '', endDate: ''};
+    state = { startDate: null, endDate: null, active: null };
 
     handleDateSubmit = () => {
         const { startDate, endDate } = this.state;
@@ -32,6 +32,7 @@ class HolidayList extends React.Component {
 
     componentDidMount() {
         this.props.fetchHolidays();
+        this.props.fetchUser();
         const startDate = moment(localStorage.getItem('startDate'));
         const endDate = moment(localStorage.getItem('endDate'));
         const scrollPosition = parseInt(localStorage.getItem('scrollPosition'));
@@ -45,18 +46,31 @@ class HolidayList extends React.Component {
         this.handleScroll();
     };
 
-    printDocument() {
+    printDocument(month) {
         const input = document.getElementById('divToPrint');
         html2canvas(input)
             .then((canvas) => {
                 let imgWidth = 190;
                 let imgHeight = canvas.height * imgWidth / canvas.width;
                 const imgData = canvas.toDataURL('img/png');
+                const imgData2 = new Image()
+                imgData2.src = '/BritishSugarLogo_150318.png'
                 const pdf = new jsPDF('p', 'mm', [297, 420]);
                 pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-                pdf.save("download.pdf");
+                pdf.text(215, 20, `Laboratory Day Crew Rota`)
+                pdf.text(234, 30, `${month}`)
+                pdf.addImage(imgData2, 'PNG', 210, 40)
+                pdf.save(`Day Crew Rota ${month}.pdf`)
+                this.pdfPrinted()
             })
-        ;
+    }
+
+    clickMonthButton(month) {
+        this.setState({ active: month })
+    }
+
+    pdfPrinted() {
+        this.setState({ active: null })
     }
 
     renderHolidays() {
@@ -81,7 +95,7 @@ class HolidayList extends React.Component {
             } if (holiday.crewOneBench === 3 && holiday.John === true) {
                 backgroundColorOne = { "backgroundColor": "paleturquoise" }
             } if (holiday.crewOneBench === 4 && holiday.John === true) {
-                backgroundColorOne = { "backgroundColor": "slateblue" }
+                backgroundColorOne = { "backgroundColor": "palegreen" }
             } if (holiday.crewOneBench === 5 && holiday.John === true) {
                 backgroundColorOne = { "backgroundColor": "orange" }
             };
@@ -96,7 +110,7 @@ class HolidayList extends React.Component {
             } if (holiday.crewTwoBench === 3 && holiday.Emily === true) {
                 backgroundColorTwo = { "backgroundColor": "paleturquoise" }
             } if (holiday.crewTwoBench === 4 && holiday.Emily === true) {
-                backgroundColorTwo = { "backgroundColor": "slateblue" }
+                backgroundColorTwo = { "backgroundColor": "palegreen" }
             } if (holiday.crewTwoBench === 5 && holiday.Emily === true) {
                 backgroundColorTwo = { "backgroundColor": "orange" }
             };
@@ -110,7 +124,7 @@ class HolidayList extends React.Component {
             } if (holiday.crewThreeBench === 3 && holiday.Ryan === true) {
                 backgroundColorThree = { "backgroundColor": "paleturquoise" }
             } if (holiday.crewThreeBench === 4 && holiday.Ryan === true) {
-                backgroundColorThree = { "backgroundColor": "slateblue" }
+                backgroundColorThree = { "backgroundColor": "palegreen" }
             } if (holiday.crewThreeBench === 5 && holiday.Ryan === true) {
                 backgroundColorThree = { "backgroundColor": "orange" }
             };
@@ -124,10 +138,14 @@ class HolidayList extends React.Component {
             } if (holiday.crewFourBench === 3 && holiday.Alex === true) {
                 backgroundColorFour = { "backgroundColor": "paleturquoise" }
             } if (holiday.crewFourBench === 4 && holiday.Alex === true) {
-                backgroundColorFour = { "backgroundColor": "slateblue" }
+                backgroundColorFour = { "backgroundColor": "palegreen" }
             } if (holiday.crewFourBench === 5 && holiday.Alex === true) {
                 backgroundColorFour = { "backgroundColor": "orange" }
-            };
+            } if (holiday.crewFourBench === 6 && holiday.Alex === true) {
+                backgroundColorFour = { "backgroundColor": "grey" }
+            } if (holiday.crewFourBench === 7 && holiday.Alex === true) {
+                backgroundColorFour = { "backgroundColor": "orange" }
+            }
 
             if (holiday.crewFiveBench === 0 && holiday.LeAnne === true) {
                 backgroundColorFive = { "backgroundColor": "silver" }
@@ -138,17 +156,17 @@ class HolidayList extends React.Component {
             } if (holiday.crewFiveBench === 3 && holiday.LeAnne === true) {
                 backgroundColorFive = { "backgroundColor": "paleturquoise" }
             } if (holiday.crewFiveBench === 4 && holiday.LeAnne === true) {
-                backgroundColorFive = { "backgroundColor": "slateblue" }
+                backgroundColorFive = { "backgroundColor": "palegreen" }
             } if (holiday.crewFiveBench === 5 && holiday.LeAnne === true) {
                 backgroundColorFive = { "backgroundColor": "orange" }
-            };
+            }
             
             switch (true) {
                 case holiday.John:
                     johnButton =
-                        <select className={this.props.holidays[365] !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewOneBench}
-                            onChange={(e) => this.props.crewOneBench(holiday.id, { "crewOneBench": parseInt(e.target.value) })} style={{
+                            onChange={(e) => this.props.crewOneBench(holiday._id, { "crewOneBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
                                 "MozAppearance": "none",
                                 "textIndent": "1px",
@@ -162,15 +180,16 @@ class HolidayList extends React.Component {
                             <option value="3">WWT</option>
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
+                            <option value="6">SDO</option>
                         </select>
             }
 
             switch (true) {
                 case holiday.Emily:
                     emilyButton =
-                        <select className={this.props.holidays[365] !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewTwoBench}
-                            onChange={(e) => this.props.crewTwoBench(holiday.id, { "crewTwoBench": parseInt(e.target.value) })} style={{
+                            onChange={(e) => this.props.crewOneBench(holiday._id, { "crewTwoBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
                                 "MozAppearance": "none",
                                 "textIndent": "1px",
@@ -184,15 +203,16 @@ class HolidayList extends React.Component {
                             <option value="3">WWT</option>
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
+                            <option value="6">SDO</option>
                         </select>  
             }
                 
             switch (true) {
                 case holiday.Ryan:
                     ryanButton =
-                        <select className={this.props.holidays[365] !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewThreeBench}
-                            onChange={(e) => this.props.crewThreeBench(holiday.id, { "crewThreeBench": parseInt(e.target.value) })} style={{
+                            onChange={(e) => this.props.crewOneBench(holiday._id, { "crewThreeBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
                                 "MozAppearance": "none",
                                 "textIndent": "1px",
@@ -206,15 +226,16 @@ class HolidayList extends React.Component {
                             <option value="3">WWT</option>
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
+                            <option value="6">SDO</option>
                         </select>
             }
                 
             switch (true) {
                 case holiday.Alex:
                     alexButton =
-                        <select className={this.props.holidays[365] !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewFourBench}
-                            onChange={(e) => this.props.crewFourBench(holiday.id, { "crewFourBench": parseInt(e.target.value) })} style={{
+                            onChange={(e) => this.props.crewOneBench(holiday._id, { "crewFourBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
                                 "MozAppearance": "none",
                                 "textIndent": "1px",
@@ -228,15 +249,17 @@ class HolidayList extends React.Component {
                             <option value="3">WWT</option>
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
+                            <option value="6">SDO</option>
+                            <option value="7">TACT</option>
                         </select>
             }
                 
             switch (true) {
                 case holiday.LeAnne:
                     leanneButton =
-                        <select className={this.props.holidays[365] !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewFiveBench}
-                            onChange={(e) => this.props.crewFiveBench(holiday.id, { "crewFiveBench": parseInt(e.target.value) })} style={{
+                            onChange={(e) => this.props.crewOneBench(holiday._id, { "crewFiveBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
                                 "MozAppearance": "none",
                                 "textIndent": "1px",
@@ -250,11 +273,12 @@ class HolidayList extends React.Component {
                             <option value="3">WWT</option>
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
+                            <option value="6">SDO</option>
                         </select>
             }
     
             while (
-                moment(holiday.date, 'DD-MM-YYYY').valueOf() >= moment(this.state.startDate - 86400000) &&
+                moment(holiday.date, 'DD-MM-YYYY').valueOf() > moment(this.state.startDate - 86400000) &&
                 moment(holiday.date, 'DD-MM-YYYY').valueOf() <= moment(this.state.endDate)
             )
                 return (
@@ -288,7 +312,93 @@ class HolidayList extends React.Component {
     render() {
         return (
             <div className="search-bar ui segment">
-                <button className="ui primary button" onClick={this.printDocument}>Export as PDF</button>
+                <h3>Click to print a pdf:</h3>
+                <div className="ui buttons">
+                    <button className={this.state.active === "September" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("September")
+                        this.state.startDate =  moment('01-09-2020', 'DD-MM-YYYY')
+                        this.state.endDate = moment('30-09-2020', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('September 2020')
+                    }}>Sep</button>
+                    <button className={this.state.active === "October" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("October")
+                        this.state.startDate = moment('01-10-2020', 'DD-MM-YYYY')
+                        this.state.endDate = moment('31-10-2020', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('October 2020')
+                    }}>Oct</button>
+                    <button className={this.state.active === "November" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("November")
+                        this.state.startDate = moment('01-11-2020', 'DD-MM-YYYY')
+                        this.state.endDate = moment('30-11-2020', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('November 2020')
+                    }}>Nov</button>
+                    <button className={this.state.active === "December" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("December")
+                        this.state.startDate = moment('01-12-2020', 'DD-MM-YYYY')
+                        this.state.endDate = moment('31-12-2020', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('December 2020')
+                    }}>Dec</button>
+                    <button className={this.state.active === "January" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("January")
+                        this.state.startDate = moment('01-01-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('31-01-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('January 2021')
+                    }}>Jan</button>
+                    <button className={this.state.active === "February" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("February")
+                        this.state.startDate = moment('01-02-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('28-02-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('February 2021')
+                    }}>Feb</button>
+                    <button className={this.state.active === "March" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("March")
+                        this.state.startDate = moment('01-03-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('31-03-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('March 2021')
+                    }}>Mar</button>
+                    <button className={this.state.active === "April" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("April")
+                        this.state.startDate = moment('01-04-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('30-04-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('April 2021')
+                    }}>Apr</button>
+                    <button className={this.state.active === "May" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("May")
+                        this.state.startDate = moment('01-05-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('31-05-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('May 2021')
+                    }}>May</button>
+                    <button className={this.state.active === "June" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("June")
+                        this.state.startDate = moment('01-06-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('30-06-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('June 2021')
+                    }}>Jun</button>
+                    <button className={this.state.active === "July" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("July")
+                        this.state.startDate = moment('01-07-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('31-07-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('July 2021')
+                    }}>Jul</button>
+                    <button className={this.state.active === "August" ? "ui basic loading button" : "ui button"} onClick={async (focusedInput) => {
+                        this.clickMonthButton("August")
+                        this.state.startDate = moment('01-08-2021', 'DD-MM-YYYY')
+                        this.state.endDate = moment('31-08-2021', 'DD-MM-YYYY')
+                        await this.setState({ focusedInput })
+                        this.printDocument('August 2021')
+                    }}>Aug</button>
+                </div>
                 <br></br>
                 <br></br>
                 <div className="App">
@@ -301,6 +411,7 @@ class HolidayList extends React.Component {
                         focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
                         onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                         displayFormat={() => "DD-MM-YYYY"}
+                        isOutsideRange={() => false}
                 />
                 </div>
                 <br></br>
@@ -336,10 +447,13 @@ class HolidayList extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    return { holidays: Object.values(state.holidays) };
+    return { 
+        holidays: Object.values(state.holidays), 
+        ...state.users[0] 
+    };
 };
 
 export default connect(
     mapStateToProps,
-    { fetchHolidays, fetchHoliday, crewOneBench, crewTwoBench, crewThreeBench, crewFourBench, crewFiveBench, fetchUser }
+    { fetchHolidays, nameToggle, fetchHoliday, crewOneBench, crewTwoBench, crewThreeBench, crewFourBench, crewFiveBench, fetchUser }
 )(HolidayList);

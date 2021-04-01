@@ -2,13 +2,14 @@ import React from 'react';
 import moment from 'moment';
 import { DateRangePicker } from 'react-dates';
 import { Link } from 'react-router-dom';
-import { fetchHolidays, fetchHoliday, johnToggle, emilyToggle, ryanToggle, alexToggle, leanneToggle, createDay, dateToggle, fetchUser } from '../../actions';
+import { fetchHolidays, fetchHoliday, createDay, dateToggle, fetchUser, nameToggle } from '../../actions';
 import { connect } from 'react-redux';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
 class HolidayList extends React.Component {
-    state = { startDate: '', endDate: '' };
+
+    state = { startDate: null, endDate: null };
 
     handleDateSubmit = () => {
         const { startDate, endDate } = this.state;
@@ -39,12 +40,14 @@ class HolidayList extends React.Component {
 
     componentDidUpdate() {
         this.handleScrollPosition();
-        this.handleDateSubmit(); 
+        this.handleDateSubmit();
+        this.render();
     };
 
     renderHolidays() {
+        console.log(this.props)
         return this.props.holidays.map(holiday => {
-            while (
+            while ( 
                     moment(holiday.date, 'DD-MM-YYYY').valueOf() >= moment(this.state.startDate - 86400000) &&
                     moment(holiday.date, 'DD-MM-YYYY').valueOf() <= moment(this.state.endDate)
                 ) {
@@ -60,11 +63,10 @@ class HolidayList extends React.Component {
                             pathname: `/swap/${holiday.id}`,
                             state: {
                                 name: "John",
-                                id: holiday.id
+                                id: holiday._id
                             }
                         }}
-                        className={this.props.holidays[365] !== "John" ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}
-                        onClick={(e) => e.preventDefault()}>
+                        className={this.props.user !== "John" || holiday.John !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
                             holiday.John === true ? "calendar icon" :
                                 (holiday.John === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -76,11 +78,10 @@ class HolidayList extends React.Component {
                             pathname: `/swap/${holiday.id}`,
                             state: {
                                 name: "Emily",
-                                id: holiday.id
+                                id: holiday._id
                             }
                         }}
-                    className={this.props.holidays[365] !== "Emily" ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}
-                        onClick={(e) => e.preventDefault()}>
+                    className={this.props.user !== "Emily" || holiday.Emily !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
                             holiday.Emily === true ? "calendar icon" :
                             (holiday.Emily === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -92,11 +93,10 @@ class HolidayList extends React.Component {
                             pathname: `/swap/${holiday.id}`,
                             state: {
                                 name: "Ryan",
-                                id: holiday.id
+                                id: holiday._id
                             }
                         }}
-                    className={this.props.holidays[365] !== "Ryan" ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}
-                        onClick={(e) => e.preventDefault()}>
+                    className={this.props.user !== "Ryan" || holiday.Ryan !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
                             holiday.Ryan === true ? "calendar icon" :
                             (holiday.Ryan === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -108,11 +108,10 @@ class HolidayList extends React.Component {
                             pathname: `/swap/${holiday.id}`,
                             state: {
                                 name: "Alex",
-                                id: holiday.id
+                                id: holiday._id
                             }
                         }}
-                    className={this.props.holidays[365] !== "Alex" ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}
-                        onClick={(e) => e.preventDefault()}>
+                    className={this.props.user !== "Alex" || holiday.Alex !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
                             holiday.Alex === true ? "calendar icon" :
                             (holiday.Alex === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -124,11 +123,10 @@ class HolidayList extends React.Component {
                             pathname: `/swap/${holiday.id}`,
                             state: {
                                 name: "LeAnne",
-                                id: holiday.id
+                                id: holiday._id
                             }
                         }}
-                    className={this.props.holidays[365] !== "Le'Anne" ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}
-                        onClick={(e) => e.preventDefault()}>
+                    className={this.props.user !== "LeAnne" || holiday.LeAnne !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
                             holiday.LeAnne === true ? "calendar icon" :
                             (holiday.LeAnne === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -137,8 +135,8 @@ class HolidayList extends React.Component {
                 } else {
                 johnButton = 
                     <button className="circular ui icon button"
-                        disabled={holiday.John === null || this.props.holidays[365] !== "John"}
-                        onClick={() => this.props.johnToggle(holiday.id, { "John": !holiday.John })}>
+                        disabled={holiday.John === null || this.props.user !== "John"}
+                        onClick={() => this.props.nameToggle(holiday._id, { "John": !holiday.John })}>
                         <i className={
                             holiday.John === true ? "calendar icon" :
                                 (holiday.John === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -146,8 +144,8 @@ class HolidayList extends React.Component {
                     </button>
                 emilyButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.Emily === null || this.props.holidays[365] !== "Emily"}
-                        onClick={() => this.props.emilyToggle(holiday.id, { "Emily": !holiday.Emily })}>
+                        disabled={holiday.Emily === null || this.props.user !== "Emily"}
+                        onClick={() => this.props.nameToggle(holiday._id, { "Emily": !holiday.Emily })}>
                         <i className={
                             holiday.Emily === true ? "calendar icon" :
                                 (holiday.Emily === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -155,8 +153,8 @@ class HolidayList extends React.Component {
                     </button>
                 ryanButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.Ryan === null || this.props.holidays[365] !== "Ryan"}
-                        onClick={() => this.props.ryanToggle(holiday.id, { "Ryan": !holiday.Ryan })}>
+                        disabled={holiday.Ryan === null || this.props.user !== "Ryan"}
+                        onClick={() => this.props.nameToggle(holiday._id, { "Ryan": !holiday.Ryan })}>
                         <i className={
                             holiday.Ryan === true ? "calendar icon" :
                                 (holiday.Ryan === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -164,8 +162,8 @@ class HolidayList extends React.Component {
                     </button>
                 alexButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.Alex === null || this.props.holidays[365] !== "Alex"}
-                        onClick={() => this.props.johnToggle(holiday.id, { "Alex": !holiday.Alex })}>
+                        disabled={holiday.Alex === null || this.props.user !== "Alex"}
+                        onClick={() => this.props.nameToggle(holiday._id, { "Alex": !holiday.Alex })}>
                         <i className={
                             holiday.Alex === true ? "calendar icon" :
                                 (holiday.Alex === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -173,8 +171,8 @@ class HolidayList extends React.Component {
                     </button>
                 leanneButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.LeAnne === null || this.props.holidays[365] !== "Le'Anne"}
-                        onClick={() => this.props.leanneToggle(holiday.id, { "LeAnne": !holiday.LeAnne })}>
+                        disabled={holiday.LeAnne === null || this.props.user !== "LeAnne"}
+                        onClick={() => this.props.nameToggle(holiday._id, { "LeAnne": !holiday.LeAnne })}>
                         <i className={
                             holiday.LeAnne === true ? "calendar icon" :
                                 (holiday.LeAnne === false ? "calendar check outline icon" : "calendar outline icon")}>
@@ -222,6 +220,7 @@ class HolidayList extends React.Component {
                         focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
                         onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                         displayFormat={() => "DD-MM-YYYY"}
+                        isOutsideRange={() => false}
                 />
                 </div>
                 <br></br>
@@ -258,10 +257,13 @@ class HolidayList extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    return { holidays: Object.values(state.holidays) };
+    return { 
+        holidays: Object.values(state.holidays),
+        ...state.users[0]
+    };
 };
 
 export default connect(
     mapStateToProps, 
-    { fetchHolidays, johnToggle, emilyToggle, ryanToggle, leanneToggle, alexToggle, createDay, dateToggle, fetchHoliday, fetchUser }
+    { fetchHolidays, createDay, dateToggle, fetchHoliday, fetchUser, nameToggle }
 )(HolidayList);

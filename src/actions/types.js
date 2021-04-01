@@ -18,3 +18,5 @@ export const EDIT_END_DATE = 'EDIT_END_DATE';
 export const UPDATE_STATE = 'UPDATE_STATE';
 export const UPDATE_USER = 'UPDATE_USER';
 export const FETCH_USER = 'FETCH_USER';
+export const NAME_TOGGLE = 'NAME_TOGGLE';
+export const LOGIN_PASSWORD = 'LOGIN_PASSWORD';

@@ -5,11 +5,12 @@ import { updateUser, fetchUser } from '../../actions';
 class LoginPage extends React.Component {
 
     componentDidMount() {
-        this.props.fetchUser();
-    };
+        this.props.fetchUser()
+    }
 
     render() {
-        console.log(this.props);
+        const href =  "./Holidays"
+        const adminHref = "./rota"
         return (
         <div className="ui raised very padded container segment">
             <div>
@@ -23,22 +24,22 @@ class LoginPage extends React.Component {
                             <i className="users icon"></i>
                             <span className="text">Select User</span>
                             <div className="menu">
-                                <a className="item" href="./Holidays" onClick={() => {this.props.updateUser({ "user": "John" })}}>
+                                <a className="item" href={href} onClick={() => {this.props.updateUser({ "user": "John" })}}>
                                     John
                                 </a>
-                                <a className="item" href="./Holidays" onClick={() => { this.props.updateUser({"user": "Emily"})}}>
+                                <a className="item" href={href} onClick={() => { this.props.updateUser({"user": "Emily"})}}>
                                     Emily
                                 </a>
-                                <a className="item" href="./Holidays" onClick={() => {this.props.updateUser({"user": "Ryan"})}}>
+                                <a className="item" href={href} onClick={() => {this.props.updateUser({"user": "Ryan"})}}>
                                     Ryan
                                 </a>
-                                <a className="item" href="./Holidays" onClick={() => {this.props.updateUser({"user": "Alex"})}}>
+                                <a className="item" href={href} onClick={() => {this.props.updateUser({"user": "Alex"})}}>
                                     Alex
                                 </a>
-                                <a className="item" href="./Holidays" onClick={() => {this.props.updateUser({"user": "LeAnne"})}}>
+                                <a className="item" href={href} onClick={() => {this.props.updateUser({"user": "LeAnne"})}}>
                                     LeAnne
                                 </a>
-                                <a className="item" href="./Holidays" onClick={() => {this.props.updateUser({"user": "Admin"})}}>
+                                <a className="item" href={adminHref} onClick={() => {this.props.updateUser({"user": "Admin"})}}>
                                     Admin
                                 </a>
                             </div>
@@ -52,7 +53,7 @@ class LoginPage extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    return { ...state.holidays };
+    return { ...state.users[0] };
 };
 
 export default connect(

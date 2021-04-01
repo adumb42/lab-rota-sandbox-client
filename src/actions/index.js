@@ -1,4 +1,5 @@
 import holidays from '../apis/holidays';
+import history from '../history';
 
 import { 
     FETCH_HOLIDAYS,
@@ -20,8 +21,11 @@ import {
     EDIT_END_DATE,
     UPDATE_STATE,
     UPDATE_USER,
-    FETCH_USER
+    FETCH_USER,
+    NAME_TOGGLE,
+    LOGIN_PASSWORD
 } from './types';
+
 import { useStore } from 'react-redux';
 
 export const fetchHolidays = () => async dispatch => {
@@ -30,44 +34,49 @@ export const fetchHolidays = () => async dispatch => {
     dispatch ({ type: FETCH_HOLIDAYS, payload: response.data });
 };
 
-export const fetchHoliday = id => async dispatch => {
-    const response = await holidays.get(`/holidays/${id}`);
+export const fetchHoliday = _id => async dispatch => {
+    const response = await holidays.get(`/holidays/${_id}`);
 
     dispatch ({ type: FETCH_HOLIDAY, payload: response.data })
 };
 
-export const johnToggle = (id, John) => async dispatch => {
-    const response = await holidays.patch(`/holidays/${id}`, John);
+export const johnToggle = (_id, John) => async dispatch => {
+    const response = await holidays.patch(`/holidays/{${_id}}`, John);
 
     dispatch({ type: JOHN_TOGGLE, payload: response.data });
+    history.push('/Holidays');
 };
 
-export const emilyToggle = (id, Emily) => async dispatch => {
-    const response = await holidays.patch(`/holidays/${id}`, Emily);
+export const nameToggle = (_id, name) => async dispatch => {
+    const response = await holidays.patch(`/holidays/${_id}`, name);
 
-    dispatch({ type: EMILY_TOGGLE, payload: response.data })
+    dispatch({ type: NAME_TOGGLE, payload: response.data });
+    history.push('/Holidays');
 };
 
-export const ryanToggle = (id, Ryan) => async dispatch => {
-    const response = await holidays.patch(`/holidays/${id}`, Ryan);
+export const ryanToggle = (_id, Ryan) => async dispatch => {
+    const response = await holidays.patch(`/holidays/${_id}`, Ryan);
 
-    dispatch({ type: RYAN_TOGGLE, payload: response.data })
+    dispatch({ type: RYAN_TOGGLE, payload: response.data });
+    history.push('/Holidays');
 };
 
-export const alexToggle = (id, Alex) => async dispatch => {
-    const response = await holidays.patch(`/holidays/${id}`, Alex);
+export const alexToggle = (_id, Alex) => async dispatch => {
+    const response = await holidays.patch(`/holidays/${_id}`, Alex);
 
-    dispatch({ type: ALEX_TOGGLE, payload: response.data })
+    dispatch({ type: ALEX_TOGGLE, payload: response.data });
+    history.push('/Holidays');
 };
 
-export const leanneToggle = (id, LeAnne) => async dispatch => {
-    const response = await holidays.patch(`/holidays/${id}`, LeAnne);
+export const leanneToggle = (_id, LeAnne) => async dispatch => {
+    const response = await holidays.patch(`/holidays/${_id}`, LeAnne);
 
     dispatch({ type: LEANNE_TOGGLE, payload: response.data })
+    history.push('/Holidays');
 };
 
-export const crewOneBench = (id, crewOneBench) => async dispatch => {
-    const response = await holidays.patch(`/holidays/${id}`, crewOneBench);
+export const crewOneBench = (_id, crewOneBench) => async dispatch => {
+    const response = await holidays.patch(`/holidays/${_id}`, crewOneBench);
 
     dispatch({ type: CREW_ONE_BENCH, payload: response.data })
 }
@@ -133,9 +142,15 @@ export const fetchUser = () => async dispatch => {
 }
 
 export const updateUser = (updateUser) => async dispatch => {
-    const response = await holidays.put('/users', updateUser);
+    const response = await holidays.put('/users/6062002299bcc7c79af2fb7c', updateUser);
 
     dispatch({ type: UPDATE_USER, payload: response.data });
 }
+
+export const loginPassword = (loginDetails) => async dispatch => {
+    const response = await holidays.post('/passwords/login', loginDetails);
+
+    dispatch({ type: LOGIN_PASSWORD, payload: response.data })
+};
 
 export const updateState = (updateState) => dispatch => dispatch({ type: "UPDATE_STATE", state: updateState });

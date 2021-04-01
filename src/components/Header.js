@@ -7,22 +7,22 @@ const Header = (props) => {
     fetchUser();
     let linkTo 
     if  (props.user === "John") {
-        linkTo = "/John"
+        linkTo = "/John";
     } if (props.user === "Emily") {
-        linkTo = "/Emily"
+        linkTo = "/Emily";
     } if (props.user === "Ryan") {
-        linkTo = "/Ryan"
+        linkTo = "/Ryan";
     } if (props.user === "Alex") {
-        linkTo = "/Alex"
+        linkTo = "/Alex";
     } if (props.user === "LeAnne") {
-        linkTo = "/LeAnne"
+        linkTo = "/LeAnne";
     }
-    console.log(linkTo);
+
     return (
         <div className="ui pointing menu">
-            <Link to={linkTo} className="item">
-                Your Summary
-            </Link>
+            { props.user !== "Admin" ? <Link to={linkTo} className="item">
+                Summary
+            </Link> : null }
             <div className="right menu">
                 <Link to="/Holidays" className="item">
                     Book Holiday
@@ -39,7 +39,7 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return { ...state.holidays };
+    return { ...state.users[0] };
 };
 
 export default connect(

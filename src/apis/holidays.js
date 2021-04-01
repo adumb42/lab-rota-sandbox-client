@@ -1,5 +1,8 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL: "http://localhost:3001"
-});
+    baseURL: "https://lab-rota-api.herokuapp.com",
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
