@@ -216,7 +216,10 @@ class HolidayList extends React.Component {
     render() {
         return (
             <div className="search-bar ui segment">
-                <div className="field">
+                <div className="field"
+                style={{
+                    "zIndex": 8
+                }}>
                 <DateRangePicker
                         startDate={this.state.startDate} // momentPropTypes.momentObj or null,
                         startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
