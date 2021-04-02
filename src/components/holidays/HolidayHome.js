@@ -9,7 +9,7 @@ import 'react-dates/lib/css/_datepicker.css';
 
 class HolidayList extends React.Component {
 
-    state = { startDate: null, endDate: null };
+    state = { startDate: '01-09-2020', endDate: '31-09-2021' };
 
     handleDateSubmit = () => {
         const { startDate, endDate } = this.state;
