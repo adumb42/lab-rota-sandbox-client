@@ -20,3 +20,4 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const FETCH_USER = 'FETCH_USER';
 export const NAME_TOGGLE = 'NAME_TOGGLE';
 export const LOGIN_PASSWORD = 'LOGIN_PASSWORD';
+export const FETCH_USER_BY_CREW = 'FETCH_USER_BY_CREW';

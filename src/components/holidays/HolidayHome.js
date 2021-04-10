@@ -2,14 +2,16 @@ import React from 'react';
 import moment from 'moment';
 import { DateRangePicker } from 'react-dates';
 import { Link } from 'react-router-dom';
-import { fetchHolidays, fetchHoliday, createDay, dateToggle, fetchUser, nameToggle } from '../../actions';
+import { fetchHolidays, fetchHoliday, createDay, dateToggle, fetchUser, nameToggle, fetchUserByCrew } from '../../actions';
 import { connect } from 'react-redux';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
 class HolidayList extends React.Component {
-
-    state = { startDate: null, endDate: null }
+    constructor(props) {
+        super(props);
+        this.state = { startDate: null, endDate: null }
+    }
 
     handleDateSubmit = () => {
         const { startDate, endDate } = this.state;
@@ -31,8 +33,8 @@ class HolidayList extends React.Component {
     };
    
     componentDidMount() {
-        this.props.fetchHolidays();
         this.props.fetchUser();
+        this.props.fetchHolidays();
         if (!localStorage.getItem('startDate')) {
             localStorage.setItem('startDate', moment());
         }
@@ -45,143 +47,160 @@ class HolidayList extends React.Component {
     };
 
     componentDidUpdate() {
-        this.handleScrollPosition();
-        this.handleDateSubmit();
-        this.render();
+        if (!this.props.users[0]) {
+            return 
+        } else {
+            this.handleScrollPosition();
+            this.handleDateSubmit();
+        }      
     };
 
+    renderTableHeader() {
+        return (
+            <tr>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Date</th>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Day</th>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>{this.props.users[0].userName}</th>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>{this.props.users[1].userName}</th>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>{this.props.users[2].userName}</th>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>{this.props.users[3].userName}</th>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>{this.props.users[4].userName}</th>
+                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Count</th>
+            </tr>
+        )
+    }
+
     renderHolidays() {
-        console.log(this.props)
         return this.props.holidays.map(holiday => {
             while ( 
                     moment(holiday.date, 'DD-MM-YYYY').valueOf() >= moment(this.state.startDate - 86400000) &&
                     moment(holiday.date, 'DD-MM-YYYY').valueOf() <= moment(this.state.endDate)
                 ) {
-            let johnButton
-            let emilyButton
-            let ryanButton
-            let alexButton
-            let leanneButton
+            let crewOneButton
+            let crewTwoButton
+            let crewThreeButton
+            let crewFourButton
+            let crewFiveButton
             if (holiday.day === "Saturday" || holiday.day === "Sunday") {
-                johnButton =
+                crewOneButton =
                     <Link
                         to={{
                             pathname: `/swap/${holiday.id}`,
                             state: {
-                                name: "John",
+                                name: this.props.users[0].userName,
                                 id: holiday._id
                             }
                         }}
-                        className={this.props.user !== "John" || holiday.John !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
+                        className={this.props.userName !== this.props.users[0].userName || holiday.crewOne !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
-                            holiday.John === true ? "calendar icon" :
-                                (holiday.John === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewOne === true ? "calendar icon" :
+                                (holiday.crewOne === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </Link>
-                emilyButton = 
+                crewTwoButton = 
                     <Link 
                         to={{
                             pathname: `/swap/${holiday.id}`,
                             state: {
-                                name: "Emily",
+                                name: this.props.users[1].userName,
                                 id: holiday._id
                             }
                         }}
-                    className={this.props.user !== "Emily" || holiday.Emily !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
+                    className={this.props.userName !== this.props.users[1].userName || holiday.crewTwo !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
-                            holiday.Emily === true ? "calendar icon" :
-                            (holiday.Emily === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewTwo === true ? "calendar icon" :
+                            (holiday.crewTwo === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </Link>
-                ryanButton = 
+                crewThreeButton = 
                     <Link 
                         to={{
                             pathname: `/swap/${holiday.id}`,
                             state: {
-                                name: "Ryan",
+                                name: this.props.users[2].userName,
                                 id: holiday._id
                             }
                         }}
-                    className={this.props.user !== "Ryan" || holiday.Ryan !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
+                    className={this.props.userName !== this.props.users[2].userName || holiday.crewThree !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
-                            holiday.Ryan === true ? "calendar icon" :
-                            (holiday.Ryan === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewThree === true ? "calendar icon" :
+                            (holiday.crewThree === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </Link>
-                alexButton = 
+                crewFourButton = 
                     <Link 
                         to={{
                             pathname: `/swap/${holiday.id}`,
                             state: {
-                                name: "Alex",
+                                name: this.props.users[3].userName,
                                 id: holiday._id
                             }
                         }}
-                    className={this.props.user !== "Alex" || holiday.Alex !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
+                    className={this.props.userName !== this.props.users[3].userName || holiday.crewFour !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
-                            holiday.Alex === true ? "calendar icon" :
-                            (holiday.Alex === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewFour === true ? "calendar icon" :
+                            (holiday.crewFour === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </Link>
-                leanneButton = 
+                crewFiveButton = 
                     <Link
                         to={{
                             pathname: `/swap/${holiday.id}`,
                             state: {
-                                name: "LeAnne",
+                                name: this.props.users[4].userName,
                                 id: holiday._id
                             }
                         }}
-                    className={this.props.user !== "LeAnne" || holiday.LeAnne !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
+                    className={this.props.userName !== this.props.users[4].userName || holiday.crewFive !== true ? `disabled circular ui icon button` : `circular ui icon button restore-${holiday.id}`}>
                         <i className={
-                            holiday.LeAnne === true ? "calendar icon" :
-                            (holiday.LeAnne === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewFive === true ? "calendar icon" :
+                            (holiday.crewFive === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </Link>
                 } else {
-                johnButton = 
+                crewOneButton = 
                     <button className="circular ui icon button"
-                        disabled={holiday.John === null || this.props.user !== "John"}
-                        onClick={() => this.props.nameToggle(holiday._id, { "John": !holiday.John })}>
+                        disabled={holiday.crewOne === null || this.props.userName !== this.props.users[0].userName}
+                        onClick={() => this.props.nameToggle(holiday._id, { "crewOne": !holiday.crewOne })}>
                         <i className={
-                            holiday.John === true ? "calendar icon" :
-                                (holiday.John === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewOne === true ? "calendar icon" :
+                                (holiday.crewOne === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </button>
-                emilyButton =
+                crewTwoButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.Emily === null || this.props.user !== "Emily"}
-                        onClick={() => this.props.nameToggle(holiday._id, { "Emily": !holiday.Emily })}>
+                        disabled={holiday.crewTwo === null || this.props.userName !== this.props.users[1].userName}
+                        onClick={() => this.props.nameToggle(holiday._id, { "crewTwo": !holiday.crewTwo })}>
                         <i className={
-                            holiday.Emily === true ? "calendar icon" :
-                                (holiday.Emily === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewTwo === true ? "calendar icon" :
+                                (holiday.crewTwo === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </button>
-                ryanButton =
+                crewThreeButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.Ryan === null || this.props.user !== "Ryan"}
-                        onClick={() => this.props.nameToggle(holiday._id, { "Ryan": !holiday.Ryan })}>
+                        disabled={holiday.crewThree === null || this.props.userName !== this.props.users[2].userName}
+                        onClick={() => this.props.nameToggle(holiday._id, { "crewThree": !holiday.crewThree })}>
                         <i className={
-                            holiday.Ryan === true ? "calendar icon" :
-                                (holiday.Ryan === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewThree === true ? "calendar icon" :
+                                (holiday.crewThree === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </button>
-                alexButton =
+                crewFourButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.Alex === null || this.props.user !== "Alex"}
-                        onClick={() => this.props.nameToggle(holiday._id, { "Alex": !holiday.Alex })}>
+                        disabled={holiday.crewFour === null || this.props.userName !== this.props.users[3].userName}
+                        onClick={() => this.props.nameToggle(holiday._id, { "crewFour": !holiday.crewFour })}>
                         <i className={
-                            holiday.Alex === true ? "calendar icon" :
-                                (holiday.Alex === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewFour === true ? "calendar icon" :
+                                (holiday.crewFour === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </button>
-                leanneButton =
+                crewFiveButton =
                     <button className="circular ui icon button"
-                        disabled={holiday.LeAnne === null || this.props.user !== "LeAnne"}
-                        onClick={() => this.props.nameToggle(holiday._id, { "LeAnne": !holiday.LeAnne })}>
+                        disabled={holiday.crewFive === null || this.props.userName !== this.props.users[4].userName}
+                        onClick={() => this.props.nameToggle(holiday._id, { "crewFive": !holiday.crewFive })}>
                         <i className={
-                            holiday.LeAnne === true ? "calendar icon" :
-                                (holiday.LeAnne === false ? "calendar check outline icon" : "calendar outline icon")}>
+                            holiday.crewFive === true ? "calendar icon" :
+                                (holiday.crewFive === false ? "calendar check outline icon" : "calendar outline icon")}>
                         </i>
                     </button>
                 }
@@ -190,22 +209,22 @@ class HolidayList extends React.Component {
                     <tr>
                         <td>{holiday.date}</td>
                         <td>{holiday.day}</td>
-                        <td className={holiday.John === true ? "positive" : "negative"}>
-                            {johnButton}
+                        <td className={holiday.crewOne === true ? "positive" : "negative"}>
+                            {crewOneButton}
                         </td>
-                        <td className={holiday.Emily === true ? "positive" : "negative"}>
-                            {emilyButton}
+                        <td className={holiday.crewTwo === true ? "positive" : "negative"}>
+                            {crewTwoButton}
                         </td>
-                        <td className={holiday.Ryan === true ? "positive" : "negative"}>
-                            {ryanButton}
+                        <td className={holiday.crewThree === true ? "positive" : "negative"}>
+                            {crewThreeButton}
                         </td>
-                        <td className={holiday.Alex === true ? "positive" : "negative"}>
-                            {alexButton}
+                        <td className={holiday.crewFour === true ? "positive" : "negative"}>
+                            {crewFourButton}
                         </td>
-                        <td className={holiday.LeAnne === true ? "positive" : "negative"}>
-                            {leanneButton}
+                        <td className={holiday.crewFive === true ? "positive" : "negative"}>
+                            {crewFiveButton}
                         </td>
-                        <td>{(holiday.John + holiday.Emily + holiday.Ryan + holiday.Alex + holiday.LeAnne)}</td>
+                        <td>{(holiday.crewOne + holiday.crewTwo + holiday.crewThree + holiday.crewFour + holiday.crewFive)}</td>
                     </tr>
                 </tbody>
             );
@@ -214,6 +233,9 @@ class HolidayList extends React.Component {
     }
 
     render() {
+        if (!this.props.users[0]) {
+            return <div />
+        }
         return (
             <div className="search-bar ui segment">
                 <div className="field">
@@ -242,16 +264,7 @@ class HolidayList extends React.Component {
                 onScroll={this.handleScroll}>
                 <table className="ui celled table" style={{border: "1px"}}>
                     <thead>
-                        <tr>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Date</th>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Day</th>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>John</th>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Emily</th>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Ryan</th>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Alex</th>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>LeAnne</th>
-                            <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 6 }}>Count</th>
-                        </tr>
+                        {this.renderTableHeader()}
                     </thead>   
                         {this.renderHolidays()}
                 </table>
@@ -265,11 +278,12 @@ class HolidayList extends React.Component {
 const mapStateToProps = (state) => {
     return { 
         holidays: Object.values(state.holidays),
-        ...state.users[0]
+        ...state.users[10],
+        users: Object.values(state.users)
     };
 };
 
 export default connect(
     mapStateToProps, 
-    { fetchHolidays, createDay, dateToggle, fetchHoliday, fetchUser, nameToggle }
+    { fetchHolidays, createDay, dateToggle, fetchHoliday, fetchUser, nameToggle, fetchUserByCrew }
 )(HolidayList);

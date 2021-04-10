@@ -4,23 +4,26 @@ import { connect } from 'react-redux';
 import { fetchUser } from '../actions';
 
 const Header = (props) => {
-    fetchUser();
+    props.fetchUser()
     let linkTo 
-    if  (props.user === "John") {
-        linkTo = "/John";
-    } if (props.user === "Emily") {
-        linkTo = "/Emily";
-    } if (props.user === "Ryan") {
-        linkTo = "/Ryan";
-    } if (props.user === "Alex") {
-        linkTo = "/Alex";
-    } if (props.user === "LeAnne") {
-        linkTo = "/LeAnne";
+    if (!props.users[0]) {
+        return null
+    }
+    if  (props.userName === props.users[0].userName) {
+        linkTo = "/crewOne";
+    } if (props.userName === props.users[1].userName) {
+        linkTo = "/crewTwo";
+    } if (props.userName === props.users[2].userName) {
+        linkTo = "/crewThree";
+    } if (props.userName === props.users[3].userName) {
+        linkTo = "/crewFour";
+    } if (props.userName === props.users[4].userName) {
+        linkTo = "/crewFive";
     }
 
     return (
         <div className="ui pointing menu">
-            { props.user !== "Admin" ? <Link to={linkTo} className="item">
+            { props.userName !== "Admin" ? <Link to={linkTo} className="item">
                 Summary
             </Link> : null }
             <div className="right menu">
@@ -39,7 +42,10 @@ const Header = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return { ...state.users[0] };
+    return { 
+        ...state.users[10],
+        users: Object.values(state.users)
+    };
 };
 
 export default connect(

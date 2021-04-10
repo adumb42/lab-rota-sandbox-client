@@ -40,10 +40,14 @@ class HolidayList extends React.Component {
     };
 
     componentDidUpdate() {
-        this.renderHolidays();
-        this.handleDateSubmit();
-        this.handleScrollPosition();
-        this.handleScroll();
+        if (!this.props.users[0]) {
+            return
+        } else {
+            this.renderHolidays();
+            this.handleDateSubmit();
+            this.handleScrollPosition();
+            this.handleScroll();  
+        }        
     };
 
     printDocument(month) {
@@ -75,96 +79,106 @@ class HolidayList extends React.Component {
 
     renderHolidays() {
         return this.props.holidays.map(holiday => {
-            let johnButton
-            let emilyButton
-            let ryanButton
-            let alexButton
-            let leanneButton
+            let crewOneButton
+            let crewTwoButton
+            let crewThreeButton
+            let crewFourButton
+            let crewFiveButton
             let backgroundColorOne
             let backgroundColorTwo
             let backgroundColorThree
             let backgroundColorFour
             let backgroundColorFive
 
-            if (holiday.crewOneBench === 0 && holiday.John === true) {
+            if (holiday.crewOneBench === 0 && holiday.crewOne === true) {
                 backgroundColorOne = { "backgroundColor": "silver" }
-            } if (holiday.crewOneBench === 1 && holiday.John === true) {
+            } if (holiday.crewOneBench === 1 && holiday.crewOne === true) {
                 backgroundColorOne = { "backgroundColor": "salmon" }
-            } if (holiday.crewOneBench === 2 && holiday.John === true) {
+            } if (holiday.crewOneBench === 2 && holiday.crewOne === true) {
                 backgroundColorOne = { "backgroundColor": "khaki" }
-            } if (holiday.crewOneBench === 3 && holiday.John === true) {
+            } if (holiday.crewOneBench === 3 && holiday.crewOne === true) {
                 backgroundColorOne = { "backgroundColor": "paleturquoise" }
-            } if (holiday.crewOneBench === 4 && holiday.John === true) {
+            } if (holiday.crewOneBench === 4 && holiday.crewOne === true) {
                 backgroundColorOne = { "backgroundColor": "palegreen" }
-            } if (holiday.crewOneBench === 5 && holiday.John === true) {
+            } if (holiday.crewOneBench === 5 && holiday.crewOne === true) {
                 backgroundColorOne = { "backgroundColor": "orange" }
-            };
+            } if (holiday.crewOneBench === 7 && holiday.crewOne === true) {
+                backgroundColorOne = { "backgroundColor": "orange" }
+            }
             
 
-            if (holiday.crewTwoBench === 0 && holiday.Emily === true) {
+            if (holiday.crewTwoBench === 0 && holiday.crewTwo === true) {
                 backgroundColorTwo = { "backgroundColor": "silver" }
-            } if (holiday.crewTwoBench === 1 && holiday.Emily === true) {
+            } if (holiday.crewTwoBench === 1 && holiday.crewTwo === true) {
                 backgroundColorTwo = { "backgroundColor": "salmon" }
-            } if (holiday.crewTwoBench === 2 && holiday.Emily === true) {
+            } if (holiday.crewTwoBench === 2 && holiday.crewTwo === true) {
                 backgroundColorTwo = { "backgroundColor": "khaki" }
-            } if (holiday.crewTwoBench === 3 && holiday.Emily === true) {
+            } if (holiday.crewTwoBench === 3 && holiday.crewTwo === true) {
                 backgroundColorTwo = { "backgroundColor": "paleturquoise" }
-            } if (holiday.crewTwoBench === 4 && holiday.Emily === true) {
+            } if (holiday.crewTwoBench === 4 && holiday.crewTwo === true) {
                 backgroundColorTwo = { "backgroundColor": "palegreen" }
-            } if (holiday.crewTwoBench === 5 && holiday.Emily === true) {
+            } if (holiday.crewTwoBench === 5 && holiday.crewTwo === true) {
                 backgroundColorTwo = { "backgroundColor": "orange" }
-            };
+            } if (holiday.crewTwoBench === 7 && holiday.crewTwo === true) {
+                backgroundColorTwo = { "backgroundColor": "orange" }
+            }
 
-            if (holiday.crewThreeBench === 0 && holiday.Ryan === true) {
+            if (holiday.crewThreeBench === 0 && holiday.crewThree === true) {
                 backgroundColorThree = { "backgroundColor": "silver" }
-            } if (holiday.crewThreeBench === 1 && holiday.Ryan === true) {
+            } if (holiday.crewThreeBench === 1 && holiday.crewThree === true) {
                 backgroundColorThree = { "backgroundColor": "salmon" }
-            } if (holiday.crewThreeBench === 2 && holiday.Ryan === true) {
+            } if (holiday.crewThreeBench === 2 && holiday.crewThree === true) {
                 backgroundColorThree = { "backgroundColor": "khaki" }
-            } if (holiday.crewThreeBench === 3 && holiday.Ryan === true) {
+            } if (holiday.crewThreeBench === 3 && holiday.crewThree === true) {
                 backgroundColorThree = { "backgroundColor": "paleturquoise" }
-            } if (holiday.crewThreeBench === 4 && holiday.Ryan === true) {
+            } if (holiday.crewThreeBench === 4 && holiday.crewThree === true) {
                 backgroundColorThree = { "backgroundColor": "palegreen" }
-            } if (holiday.crewThreeBench === 5 && holiday.Ryan === true) {
+            } if (holiday.crewThreeBench === 5 && holiday.crewThree === true) {
                 backgroundColorThree = { "backgroundColor": "orange" }
-            };
+            } if (holiday.crewThreeBench === 7 && holiday.crewThree === true) {
+                backgroundColorThree = { "backgroundColor": "orange" }
+            }
 
-            if (holiday.crewFourBench === 0 && holiday.Alex === true) {
+            if (holiday.crewFourBench === 0 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "silver" }
-            } if (holiday.crewFourBench === 1 && holiday.Alex === true) {
+            } if (holiday.crewFourBench === 1 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "salmon" }
-            } if (holiday.crewFourBench === 2 && holiday.Alex === true) {
+            } if (holiday.crewFourBench === 2 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "khaki" }
-            } if (holiday.crewFourBench === 3 && holiday.Alex === true) {
+            } if (holiday.crewFourBench === 3 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "paleturquoise" }
-            } if (holiday.crewFourBench === 4 && holiday.Alex === true) {
+            } if (holiday.crewFourBench === 4 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "palegreen" }
-            } if (holiday.crewFourBench === 5 && holiday.Alex === true) {
+            } if (holiday.crewFourBench === 5 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "orange" }
-            } if (holiday.crewFourBench === 6 && holiday.Alex === true) {
+            } if (holiday.crewFourBench === 6 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "grey" }
-            } if (holiday.crewFourBench === 7 && holiday.Alex === true) {
+            } if (holiday.crewFourBench === 7 && holiday.crewFour === true) {
+                backgroundColorFour = { "backgroundColor": "orange" }
+            } if (holiday.crewFourBench === 8 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "orange" }
             }
 
-            if (holiday.crewFiveBench === 0 && holiday.LeAnne === true) {
+            if (holiday.crewFiveBench === 0 && holiday.crewFive === true) {
                 backgroundColorFive = { "backgroundColor": "silver" }
-            } if (holiday.crewFiveBench === 1 && holiday.LeAnne === true) {
+            } if (holiday.crewFiveBench === 1 && holiday.crewFive === true) {
                 backgroundColorFive = { "backgroundColor": "salmon" }
-            } if (holiday.crewFiveBench === 2 && holiday.LeAnne === true) {
+            } if (holiday.crewFiveBench === 2 && holiday.crewFive === true) {
                 backgroundColorFive = { "backgroundColor": "khaki" }
-            } if (holiday.crewFiveBench === 3 && holiday.LeAnne === true) {
+            } if (holiday.crewFiveBench === 3 && holiday.crewFive === true) {
                 backgroundColorFive = { "backgroundColor": "paleturquoise" }
-            } if (holiday.crewFiveBench === 4 && holiday.LeAnne === true) {
+            } if (holiday.crewFiveBench === 4 && holiday.crewFive === true) {
                 backgroundColorFive = { "backgroundColor": "palegreen" }
-            } if (holiday.crewFiveBench === 5 && holiday.LeAnne === true) {
+            } if (holiday.crewFiveBench === 5 && holiday.crewFive === true) {
+                backgroundColorFive = { "backgroundColor": "orange" }
+            } if (holiday.crewFiveBench === 7 && holiday.crewFive === true) {
                 backgroundColorFive = { "backgroundColor": "orange" }
             }
             
             switch (true) {
-                case holiday.John:
-                    johnButton =
-                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                case holiday.crewOne:
+                    crewOneButton =
+                        <select className={this.props.userName !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewOneBench}
                             onChange={(e) => this.props.crewOneBench(holiday._id, { "crewOneBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
@@ -181,13 +195,14 @@ class HolidayList extends React.Component {
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
                             <option value="6">SDO</option>
+                            <option value="7">BIOT</option>
                         </select>
             }
 
             switch (true) {
-                case holiday.Emily:
-                    emilyButton =
-                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                case holiday.crewTwo:
+                    crewTwoButton =
+                        <select className={this.props.userName !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewTwoBench}
                             onChange={(e) => this.props.crewOneBench(holiday._id, { "crewTwoBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
@@ -204,13 +219,14 @@ class HolidayList extends React.Component {
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
                             <option value="6">SDO</option>
+                            <option value="7">BIOT</option>
                         </select>  
             }
                 
             switch (true) {
-                case holiday.Ryan:
-                    ryanButton =
-                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                case holiday.crewThree:
+                    crewThreeButton =
+                        <select className={this.props.userName !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewThreeBench}
                             onChange={(e) => this.props.crewOneBench(holiday._id, { "crewThreeBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
@@ -227,13 +243,14 @@ class HolidayList extends React.Component {
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
                             <option value="6">SDO</option>
+                            <option value="7">BIOT</option>
                         </select>
             }
                 
             switch (true) {
-                case holiday.Alex:
-                    alexButton =
-                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                case holiday.crewFour:
+                    crewFourButton =
+                        <select className={this.props.userName !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewFourBench}
                             onChange={(e) => this.props.crewOneBench(holiday._id, { "crewFourBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
@@ -251,13 +268,14 @@ class HolidayList extends React.Component {
                             <option value="5">SPT</option>
                             <option value="6">SDO</option>
                             <option value="7">TACT</option>
+                            <option value="8">BIOT</option>
                         </select>
             }
                 
             switch (true) {
-                case holiday.LeAnne:
-                    leanneButton =
-                        <select className={this.props.user !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
+                case holiday.crewFive:
+                    crewFiveButton =
+                        <select className={this.props.userName !== "Admin" ? "disabled ui dropdown" : "ui dropdown"}
                             value={holiday.crewFiveBench}
                             onChange={(e) => this.props.crewOneBench(holiday._id, { "crewFiveBench": parseInt(e.target.value) })} style={{
                                 "WebkitAppearance": "none",
@@ -274,6 +292,7 @@ class HolidayList extends React.Component {
                             <option value="4">UTI</option>
                             <option value="5">SPT</option>
                             <option value="6">SDO</option>
+                            <option value="7">BIOT</option>
                         </select>
             }
     
@@ -287,21 +306,21 @@ class HolidayList extends React.Component {
                             <td>{holiday.date}</td>
                             <td>{holiday.day}</td>
                             <td style={backgroundColorOne}>
-                                {johnButton}
+                                {crewOneButton}
                             </td>
                             <td style={backgroundColorTwo}>
-                                {emilyButton}
+                                {crewTwoButton}
                             </td>
                             <td style={backgroundColorThree}>
-                                {ryanButton}
+                                {crewThreeButton}
                             </td>
                             <td style={backgroundColorFour}>
-                                {alexButton}
+                                {crewFourButton}
                             </td>
                             <td style={backgroundColorFive}>
-                                {leanneButton}
+                                {crewFiveButton}
                             </td>
-                            <td>{(holiday.John + holiday.Emily + holiday.Ryan + holiday.Alex + holiday.LeAnne)}</td>
+                            <td>{(holiday.crewOne + holiday.crewTwo + holiday.crewThree + holiday.crewFour + holiday.crewFive)}</td>
                         </tr>
                     </tbody>
                 );
@@ -310,6 +329,9 @@ class HolidayList extends React.Component {
     }
 
     render() {
+        if (!this.props.users[0]) { 
+            return <div />
+        } 
         return (
             <div className="search-bar ui segment">
                 <h3>Click to print a pdf:</h3>
@@ -429,11 +451,11 @@ class HolidayList extends React.Component {
                             <tr>
                                 <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 0 }}>Date</th>
                                 <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 0 }}>Day</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>John</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>Emily</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>Ryan</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>Alex</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>LeAnne</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[0].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[1].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[2].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[3].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[4].userName}</th>
                                 <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>Count</th>
                             </tr>
                         </thead>
@@ -449,7 +471,8 @@ class HolidayList extends React.Component {
 const mapStateToProps = (state) => {
     return { 
         holidays: Object.values(state.holidays), 
-        ...state.users[0] 
+        ...state.users[10],
+        users: Object.values(state.users)
     };
 };
 

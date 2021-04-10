@@ -1,14 +1,14 @@
 import React from 'react';
 import Modal from './Modal';
 import { Router, Route } from 'react-router-dom';
-import { connect } from 'react-redux'
-;import HolidayHome from './holidays/HolidayHome';
+import { connect } from 'react-redux';
+import HolidayHome from './holidays/HolidayHome';
 import HolidaySwap from './holidays/HolidaySwap';
-import John from './holidays/John';
-import Emily from './holidays/Emily';
-import Ryan from './holidays/Ryan';
-import Alex from './holidays/Alex';
-import LeAnne from './holidays/LeAnne';
+import CrewOne from './holidays/crewOne';
+import CrewTwo from './holidays/crewTwo';
+import CrewThree from './holidays/crewThree';
+import CrewFour from './holidays/crewFour';
+import CrewFive from './holidays/crewFive';
 import Header from './Header';
 import history from '../history';
 import RotaHome from './holidays/RotaHome';
@@ -18,9 +18,6 @@ import { loginPassword } from '../actions';
 
 class App extends React.Component {
     state = { passwordAttempt: 0 }
-        
-    componentDidMount() {
-    }
 
     handleKeyDown = async (e) => {
         let typedValue = `${e.target.value}`
@@ -39,21 +36,20 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(history)
         if (localStorage.getItem('password')) {
             return (
                 <div className="ui container">
                     <Router history={history}>
                         <div>
-                            {
-                                history.location.pathname !== '/' ? <Header /> : null
-                            }
+                            <Header />
                             <Route path="/" exact component={LoginPage} />
                             <Route path="/Holidays" exact component={HolidayHome} />
-                            <Route path="/John" exact component={John} />
-                            <Route path="/Emily" exact component={Emily} />
-                            <Route path="/Ryan" exact component={Ryan} />
-                            <Route path="/Alex" exact component={Alex} />
-                            <Route path="/LeAnne" exact component={LeAnne} />
+                            <Route path="/crewOne" exact component={CrewOne} />
+                            <Route path="/crewTwo" exact component={CrewTwo} />
+                            <Route path="/crewThree" exact component={CrewThree} />
+                            <Route path="/crewFour" exact component={CrewFour} />
+                            <Route path="/crewFive" exact component={CrewFive} />
                             <Route path="/rota" exact component={RotaHome} />
                             <Route path="/swap/:id" exact component={HolidaySwap} />
                             <Route path="/password" exact component={PasswordEntry} />

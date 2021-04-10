@@ -9,8 +9,6 @@ import {
     CREW_FOUR_BENCH,
     CREW_FIVE_BENCH,
     CREATE_DAY,
-    UPDATE_USER,
-    FETCH_USER,
     NAME_TOGGLE
 } from '../actions/types';
 
@@ -34,10 +32,6 @@ export default (state = {}, action) => {
             return { ...state, [action.payload.id]: action.payload };
         case CREATE_DAY:
             return { ...state, [action.payload.id]: action.payload };
-        case UPDATE_USER:
-            return { ...state, ...action.payload };
-        case FETCH_USER:
-            return { ...state, ...action.payload };
         default:
             return state;
     }

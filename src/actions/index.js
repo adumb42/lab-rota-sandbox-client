@@ -23,7 +23,8 @@ import {
     UPDATE_USER,
     FETCH_USER,
     NAME_TOGGLE,
-    LOGIN_PASSWORD
+    LOGIN_PASSWORD,
+    FETCH_USER_BY_CREW
 } from './types';
 
 import { useStore } from 'react-redux';
@@ -136,15 +137,23 @@ export const editEndDate = (endDate) => async dispatch => {
 };
 
 export const fetchUser = () => async dispatch => {
-    const response = await holidays.get('/users');
+    const response = await holidays.get('/users', fetchUser)
 
-    dispatch({ type: FETCH_USER, payload: response.data });
+    dispatch({ type: FETCH_USER, payload: response.data })
+}
+
+
+export const fetchUserByCrew = () => async dispatch => {
+    const response = await holidays.get('/users/crewNumber');
+
+    dispatch({ type: FETCH_USER_BY_CREW, payload: response.data });
 }
 
 export const updateUser = (updateUser) => async dispatch => {
-    const response = await holidays.put('/users/6062002299bcc7c79af2fb7c', updateUser);
+    const response = await holidays.put('/users/606add974f6df90015c503f0', updateUser);
 
     dispatch({ type: UPDATE_USER, payload: response.data });
+    history.push('/Holidays');   
 }
 
 export const loginPassword = (loginDetails) => async dispatch => {

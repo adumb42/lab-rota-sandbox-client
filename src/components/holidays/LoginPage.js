@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import { updateUser, fetchUser } from '../../actions';
  
 class LoginPage extends React.Component {
-
-    componentDidMount() {
-        this.props.fetchUser()
+    constructor(props) {
+        super(props)
+        props.fetchUser()
     }
 
+    
+
     render() {
-        const href =  "./Holidays"
-        const adminHref = "./rota"
+        if (!this.props.users[0]) {
+            return <div />
+        }
         return (
         <div className="ui raised very padded container segment">
             <div>
@@ -24,22 +27,22 @@ class LoginPage extends React.Component {
                             <i className="users icon"></i>
                             <span className="text">Select User</span>
                             <div className="menu">
-                                <a className="item" href={href} onClick={() => {this.props.updateUser({ "user": "John" })}}>
-                                    John
+                                <a className="item" onClick={() => {this.props.updateUser({ "userName": this.props.users[0].userName, "crewNumber": 1 })}}>
+                                    {this.props.users[0].userName}
                                 </a>
-                                <a className="item" href={href} onClick={() => { this.props.updateUser({"user": "Emily"})}}>
-                                    Emily
+                                    <a className="item" onClick={() => { this.props.updateUser({ "userName": this.props.users[1].userName, "crewNumber": 2})}}>
+                                    {this.props.users[1].userName}
                                 </a>
-                                <a className="item" href={href} onClick={() => {this.props.updateUser({"user": "Ryan"})}}>
-                                    Ryan
+                                    <a className="item" onClick={() => { this.props.updateUser({ "userName": this.props.users[2].userName, "crewNumber": 3 })}}>
+                                    {this.props.users[2].userName}
                                 </a>
-                                <a className="item" href={href} onClick={() => {this.props.updateUser({"user": "Alex"})}}>
-                                    Alex
+                                    <a className="item" onClick={() => { this.props.updateUser({ "userName": this.props.users[3].userName, "crewNumber": 4 })}}>
+                                    {this.props.users[3].userName}
                                 </a>
-                                <a className="item" href={href} onClick={() => {this.props.updateUser({"user": "LeAnne"})}}>
-                                    LeAnne
+                                    <a className="item" onClick={() => { this.props.updateUser({ "userName": this.props.users[4].userName, "crewNumber": 5 })}}>
+                                    {this.props.users[4].userName}
                                 </a>
-                                <a className="item" href={adminHref} onClick={() => {this.props.updateUser({"user": "Admin"})}}>
+                                    <a className="item" onClick={() => {this.props.updateUser({"userName": "Admin"})}}>
                                     Admin
                                 </a>
                             </div>
@@ -53,7 +56,10 @@ class LoginPage extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    return { ...state.users[0] };
+    return { 
+        ...state.users[10],
+        users: Object.values(state.users)   
+    };
 };
 
 export default connect(
