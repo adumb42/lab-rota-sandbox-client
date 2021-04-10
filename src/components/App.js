@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from './Modal';
+import 'react-app-polyfill/stable';
 import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HolidayHome from './holidays/HolidayHome';
