@@ -37,8 +37,8 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(history)
-        if (localStorage.getItem('password')) {
+        const password = localStorage.getItem('password')
+        if (password === this.props.password) {
             return (
                 <div className="ui container">
                     <Router history={history}>
