@@ -24,7 +24,7 @@ class App extends React.Component {
         let typedValue = `${e.target.value}`
         if(e.key === "Enter") {
             this.props.loginPassword({
-                "name": "laboratory",
+                "name": "sandbox",
                 "password": typedValue
             }).then(() => {
                 localStorage.setItem('password', this.props.password)
