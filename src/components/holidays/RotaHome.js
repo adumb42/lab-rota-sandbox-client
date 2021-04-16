@@ -1,66 +1,66 @@
-import React from 'react';
-import moment from 'moment';
-import { DateRangePicker } from 'react-dates';
-import { fetchHolidays, nameToggle, fetchHoliday, crewOneBench, crewTwoBench, crewThreeBench, crewFourBench, crewFiveBench, fetchUser } from '../../actions';
-import { connect } from 'react-redux';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
+import React from 'react'
+import moment from 'moment'
+import { DateRangePicker } from 'react-dates'
+import { fetchHolidays, nameToggle, fetchHoliday, crewOneBench, crewTwoBench, crewThreeBench, crewFourBench, crewFiveBench, fetchUser } from '../../actions'
+import { connect } from 'react-redux'
+import html2canvas from 'html2canvas'
+import jsPDF from 'jspdf'
+import 'react-dates/initialize'
+import 'react-dates/lib/css/_datepicker.css'
 
 class HolidayList extends React.Component {
-    state = { startDate: null, endDate: null, active: null };
+    state = { startDate: null, endDate: null, active: null }
 
     handleDateSubmit = () => {
-        const { startDate, endDate } = this.state;
-        moment(localStorage.setItem('startDate', startDate));
-        moment(localStorage.setItem('endDate', endDate));
-    };
+        const { startDate, endDate } = this.state
+        moment(localStorage.setItem('startDate', startDate))
+        moment(localStorage.setItem('endDate', endDate))
+    }
 
     handleScrollPosition = () => {
-        const scrollPosition = this.state.scrollPosition;
-        const mainWindow = document.getElementById('divToPrint');
+        const scrollPosition = this.state.scrollPosition
+        const mainWindow = document.getElementById('divToPrint')
         if (scrollPosition) {
-            mainWindow.scrollTo(0, scrollPosition);
+            mainWindow.scrollTo(0, scrollPosition)
         }
-    };
+    }
 
     handleScroll = () => {
-        const mainWindow = document.getElementById('divToPrint');
-        localStorage.setItem('scrollPosition', mainWindow.scrollTop);
-    };
+        const mainWindow = document.getElementById('divToPrint')
+        localStorage.setItem('scrollPosition', mainWindow.scrollTop)
+    }
 
     componentDidMount() {
-        this.props.fetchHolidays();
-        this.props.fetchUser();
-        const startDate = moment(localStorage.getItem('startDate'));
-        const endDate = moment(localStorage.getItem('endDate'));
-        const scrollPosition = parseInt(localStorage.getItem('scrollPosition'));
-        this.setState({ startDate, endDate, scrollPosition });
-    };
+        this.props.fetchHolidays()
+        this.props.fetchUser()
+        const startDate = moment(localStorage.getItem('startDate'))
+        const endDate = moment(localStorage.getItem('endDate'))
+        const scrollPosition = parseInt(localStorage.getItem('scrollPosition'))
+        this.setState({ startDate, endDate, scrollPosition })
+    }
 
     componentDidUpdate() {
-        if (!this.props.users[0]) {
+        if (!this.props.users[5]) {
             return
         } else {
-            this.renderHolidays();
-            this.handleDateSubmit();
-            this.handleScrollPosition();
-            this.handleScroll();  
+            this.renderHolidays()
+            this.handleDateSubmit()
+            this.handleScrollPosition()
+            this.handleScroll()  
         }        
-    };
+    }
 
     printDocument(month) {
-        const input = document.getElementById('divToPrint');
+        const input = document.getElementById('divToPrint')
         html2canvas(input)
             .then((canvas) => {
-                let imgWidth = 190;
-                let imgHeight = canvas.height * imgWidth / canvas.width;
-                const imgData = canvas.toDataURL('img/png');
+                let imgWidth = 190
+                let imgHeight = canvas.height * imgWidth / canvas.width
+                const imgData = canvas.toDataURL('img/png')
                 const imgData2 = new Image()
                 imgData2.src = '/BritishSugarLogo_150318.png'
-                const pdf = new jsPDF('p', 'mm', [297, 420]);
-                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                const pdf = new jsPDF('p', 'mm', [297, 420])
+                pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight)
                 pdf.text(215, 20, `Laboratory Day Crew Rota`)
                 pdf.text(234, 30, `${month}`)
                 pdf.addImage(imgData2, 'PNG', 210, 40)
@@ -197,6 +197,8 @@ class HolidayList extends React.Component {
                             <option value="6">SDO</option>
                             <option value="7">BIOT</option>
                         </select>
+                    break
+                default: 
             }
 
             switch (true) {
@@ -220,7 +222,9 @@ class HolidayList extends React.Component {
                             <option value="5">SPT</option>
                             <option value="6">SDO</option>
                             <option value="7">BIOT</option>
-                        </select>  
+                        </select> 
+                    break
+                default:
             }
                 
             switch (true) {
@@ -245,6 +249,8 @@ class HolidayList extends React.Component {
                             <option value="6">SDO</option>
                             <option value="7">BIOT</option>
                         </select>
+                    break
+                default: 
             }
                 
             switch (true) {
@@ -270,6 +276,8 @@ class HolidayList extends React.Component {
                             <option value="7">TACT</option>
                             <option value="8">BIOT</option>
                         </select>
+                    break
+                default: 
             }
                 
             switch (true) {
@@ -294,6 +302,8 @@ class HolidayList extends React.Component {
                             <option value="6">SDO</option>
                             <option value="7">BIOT</option>
                         </select>
+                    break
+                default: 
             }
     
             while (
@@ -323,13 +333,13 @@ class HolidayList extends React.Component {
                             <td>{(holiday.crewOne + holiday.crewTwo + holiday.crewThree + holiday.crewFour + holiday.crewFive)}</td>
                         </tr>
                     </tbody>
-                );
+                )
             }
-        );
+        )
     }
 
     render() {
-        if (!this.props.users[0]) { 
+        if (!this.props.users[5]) { 
             return <div />
         } 
         return (
@@ -451,11 +461,11 @@ class HolidayList extends React.Component {
                             <tr>
                                 <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 0 }}>Date</th>
                                 <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 0 }}>Day</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[0].userName}</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[1].userName}</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[2].userName}</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[3].userName}</th>
-                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[4].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[5].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[6].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[7].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[8].userName}</th>
+                                <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>{this.props.users[9].userName}</th>
                                 <th style={{ "position": "webkitSticky", /* Safari */ "position": "sticky", "top": 0, "zIndex": 1 }}>Count</th>
                             </tr>
                         </thead>
@@ -463,7 +473,7 @@ class HolidayList extends React.Component {
                     </table>
                 </div>
             </div>
-        );
+        )
     }
 }
 
@@ -473,10 +483,10 @@ const mapStateToProps = (state) => {
         holidays: Object.values(state.holidays), 
         ...state.users[10],
         users: Object.values(state.users)
-    };
-};
+    }
+}
 
 export default connect(
     mapStateToProps,
     { fetchHolidays, nameToggle, fetchHoliday, crewOneBench, crewTwoBench, crewThreeBench, crewFourBench, crewFiveBench, fetchUser }
-)(HolidayList);
+)(HolidayList)

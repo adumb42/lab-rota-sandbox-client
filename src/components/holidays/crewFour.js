@@ -1,6 +1,6 @@
-import React from 'react';
-import { fetchHolidays, fetchUser } from '../../actions';
-import { connect } from 'react-redux';
+import React from 'react'
+import { fetchHolidays, fetchUser } from '../../actions'
+import { connect } from 'react-redux'
 
 class CrewFour extends React.Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class CrewFour extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchHolidays();
+        this.props.fetchHolidays()
         setTimeout(() => {
             this.setState({ hidden: false })
         }, 1500)
@@ -44,7 +44,7 @@ class CrewFour extends React.Component {
             (
             <div className="ui raised card">
                 <div className="content">
-                        <div className="header">{this.props.users[3].fullNameOne}</div>
+                        <div className="header">{this.props.users[8].fullNameOne}</div>
                     <div className="meta">
                         <span className="category">Summary 20/21</span>
                     </div>
@@ -59,7 +59,7 @@ class CrewFour extends React.Component {
                     </div>
                 </div>
             </div>
-        );
+        )
     }
 }
 
@@ -67,10 +67,10 @@ const mapStateToProps = (state) => {
     return {
         holidays: Object.values(state.holidays),
         users: Object.values(state.users)
-    };
-};
+    }
+}
 
 export default connect(
     mapStateToProps,
     { fetchHolidays, fetchUser }
-)(CrewFour);
+)(CrewFour)

@@ -1,14 +1,16 @@
 import {
     LOGIN_PASSWORD
-} from '../actions/types';
+} from '../actions/types'
 
-export default (state = {}, action) => {
+const PasswordReducer =  (state = {}, action) => {
     switch (action.type) {
         case LOGIN_PASSWORD:
-            return { ...state, ...action.payload };
+            return { ...state, ...action.payload }
         default:
-            return state;
+            return state
     }
-};
+}
+
+export default PasswordReducer
 
         

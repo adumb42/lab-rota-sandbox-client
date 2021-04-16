@@ -1,13 +1,13 @@
-import React from 'react';
-import Modal from '../Modal';
-import history from '../../history';
-import { connect } from 'react-redux';
-import { fetchHoliday, nameToggle, fetchUser } from '../../actions';
+import React from 'react'
+import Modal from '../Modal'
+import history from '../../history'
+import { connect } from 'react-redux'
+import { fetchHoliday, nameToggle, fetchUser } from '../../actions'
 
 class HolidaySwap extends React.Component {
     componentDidMount() {
-        this.props.fetchHoliday(this.props.location.state.id);
-        this.props.fetchUser();
+        this.props.fetchHoliday(this.props.location.state.id)
+        this.props.fetchUser()
     }
 
     renderActions() {
@@ -31,28 +31,28 @@ class HolidaySwap extends React.Component {
         let crewFiveButton 
         let nameChange
 
-        if (getName === this.props.users[0].userName) {
+        if (getName === this.props.users[5].userName) {
             nameChange = crewOneChange
-        } if (getName === this.props.users[1].userName) {
+        } if (getName === this.props.users[6].userName) {
             nameChange = crewTwoChange
-        } if (getName === this.props.users[2].userName) {
+        } if (getName === this.props.users[7].userName) {
             nameChange = crewThreeChange
-        } if (getName === this.props.users[3].userName) {
+        } if (getName === this.props.users[8].userName) {
             nameChange = crewFourChange
-        } if (getName === this.props.users[4].userName) {
+        } if (getName === this.props.users[9].userName) {
             nameChange = crewFiveChange
         }
 
-        if (crewOne === null && getName !== this.props.users[0].userName) {
-            crewOneButton = <button className="ui button" onClick={() =>  { this.props.nameToggle(_id, { "crewOne": true });}}>{this.props.users[0].userName}</button>
-        } if (crewTwo === null && getName !== this.props.users[1].userName) {
-            crewTwoButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewTwo": true });}}>{this.props.users[1].userName}</button>
-        } if (crewThree === null && getName !== this.props.users[2].userName) {
-            crewThreeButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewThree": true });}}>{this.props.users[2].userName}</button>
-        } if (crewFour === null && getName !== this.props.users[3].userName) {
-            crewFourButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewFour": true });}}>{this.props.users[3].userName}</button>
-        } if (crewFive === null && getName !== this.props.users[4].userName) {
-            crewFiveButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewFive": true });}}>{this.props.users[4].userName}</button>
+        if (crewOne === null && getName !== this.props.users[5].userName) {
+            crewOneButton = <button className="ui button" onClick={() =>  { this.props.nameToggle(_id, { "crewOne": true })}}>{this.props.users[5].userName}</button>
+        } if (crewTwo === null && getName !== this.props.users[6].userName) {
+            crewTwoButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewTwo": true })}}>{this.props.users[6].userName}</button>
+        } if (crewThree === null && getName !== this.props.users[7].userName) {
+            crewThreeButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewThree": true })}}>{this.props.users[7].userName}</button>
+        } if (crewFour === null && getName !== this.props.users[8].userName) {
+            crewFourButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewFour": true })}}>{this.props.users[8].userName}</button>
+        } if (crewFive === null && getName !== this.props.users[9].userName) {
+            crewFiveButton = <button className="ui button" onClick={() => { this.props.nameToggle(_id, { "crewFive": true })}}>{this.props.users[9].userName}</button>
         } 
 
         return (
@@ -63,7 +63,7 @@ class HolidaySwap extends React.Component {
                {crewFourButton}
                {crewFiveButton}
             </div>
-        );
+        )
     }
 
     render() {
@@ -74,15 +74,15 @@ class HolidaySwap extends React.Component {
                 actions={this.renderActions()}
                 onDismiss={() => history.push('/Holidays')}
             />
-        );
+        )
     }
-};
+}
 
 const mapStateToProps = (state, ownProps) => {
     return { 
         holiday: state.holidays[ownProps.match.params.id],
         users: Object.values(state.users)
     }
-};
+}
 
-export default connect(mapStateToProps, { fetchHoliday, nameToggle, fetchUser })(HolidaySwap);
+export default connect(mapStateToProps, { fetchHoliday, nameToggle, fetchUser })(HolidaySwap)

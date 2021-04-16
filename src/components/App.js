@@ -1,21 +1,21 @@
-import React from 'react';
-import Modal from './Modal';
-import 'react-app-polyfill/stable';
-import { Router, Route } from 'react-router-dom';
-import { connect } from 'react-redux';
-import HolidayHome from './holidays/HolidayHome';
-import HolidaySwap from './holidays/HolidaySwap';
-import CrewOne from './holidays/crewOne';
-import CrewTwo from './holidays/crewTwo';
-import CrewThree from './holidays/crewThree';
-import CrewFour from './holidays/crewFour';
-import CrewFive from './holidays/crewFive';
-import Header from './Header';
-import history from '../history';
-import RotaHome from './holidays/RotaHome';
-import LoginPage from './holidays/LoginPage';
-import PasswordEntry from './holidays/PasswordEntry';
-import { loginPassword } from '../actions';
+import React from 'react'
+import Modal from './Modal'
+import 'react-app-polyfill/stable'
+import { Router, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
+import HolidayHome from './holidays/HolidayHome'
+import HolidaySwap from './holidays/HolidaySwap'
+import CrewOne from './holidays/crewOne'
+import CrewTwo from './holidays/crewTwo'
+import CrewThree from './holidays/crewThree'
+import CrewFour from './holidays/crewFour'
+import CrewFive from './holidays/crewFive'
+import Header from './Header'
+import history from '../history'
+import RotaHome from './holidays/RotaHome'
+import LoginPage from './holidays/LoginPage'
+import PasswordEntry from './holidays/PasswordEntry'
+import { loginPassword } from '../actions'
 
 class App extends React.Component {
     state = { passwordAttempt: 0 }
@@ -73,16 +73,16 @@ class App extends React.Component {
                             </div> : null}
                         onDismiss={() => history.push('/')}
                     />
-                );
+                )
         }
     }        
-};
+}
 
 const mapStateToProps = (state) => {
-    return { ...state.passwords };
-};
+    return { ...state.passwords }
+}
 
 export default connect(
     mapStateToProps,
     { loginPassword }
-)(App);
+)(App)
