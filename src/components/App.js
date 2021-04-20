@@ -18,11 +18,16 @@ import PasswordEntry from './holidays/PasswordEntry'
 import { loginPassword } from '../actions'
 
 class App extends React.Component {
-    state = { passwordAttempt: 0 }
+    state = { passwordAttempt: 0, input: null, passwordLoading: false }
+
+    handleChange = e => {
+        this.setState({ input: e.target.value })
+    }
 
     handleKeyDown = async (e) => {
-        let typedValue = `${e.target.value}`
-        if(e.key === "Enter") {
+        let typedValue = this.state.input
+        if(e.key === "Enter" || e.type === "click") {
+            await this.setState({ passwordLoading: true })
             this.props.loginPassword({
                 "name": "public",
                 "password": typedValue
@@ -30,8 +35,11 @@ class App extends React.Component {
                 localStorage.setItem('password', this.props.password)
             }).then(() => {
                 this.forceUpdate()
+            }).then(() => {
+                this.setState({ passwordLoading: false })
             }).catch(() => {
                 this.setState({ passwordAttempt: this.state.passwordAttempt + 1 }) 
+                this.setState({ passwordLoading: false })
             })
         }
     }
@@ -62,11 +70,17 @@ class App extends React.Component {
             return (
                     <Modal
                         title="Enter Password"
-                        content={<div className="ui input focus">
-                            <input type="password" placeholder="Enter password..." onKeyDown={this.handleKeyDown}></input>
-                            </div>}
+                        content={this.state.passwordLoading === false ? <div className="ui input focus">
+                            <input style={{"margin-right":"20px"}} type="password" placeholder="Enter password..." onChange={this.handleChange} onKeyDown={this.handleKeyDown}></input>
+                            <button type="submit" className="ui primary button" onClick={this.handleKeyDown}>Submit</button>
+                            </div> : 
+                            <div className="ui input focus">
+                                <input style={{"margin-right":"20px"}} type="password" placeholder="Enter password..."></input>
+                                <button type="submit" className="ui primary loading button">Submit</button>
+                            </div>
+                    }
                         actions={this.state.passwordAttempt > 0 ? <div class="ui negative message">
-                                <div class="header">
+                                <div className="header">
                                     Incorrect Password Attempt {this.state.passwordAttempt}
                                 </div>
                                 <p>Please try again</p>
