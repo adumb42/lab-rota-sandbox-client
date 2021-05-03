@@ -11,15 +11,15 @@ const Header = (props) => {
     if (!props.users[0]) {
         return null
     }
-    if (props.userName === props.users[0].userName) {
+    if (props.userName === props.users[5].userName) {
         linkTo = "/crewOne";
-    } if (props.userName === props.users[1].userName) {
+    } if (props.userName === props.users[6].userName) {
         linkTo = "/crewTwo";
-    } if (props.userName === props.users[2].userName) {
+    } if (props.userName === props.users[7].userName) {
         linkTo = "/crewThree";
-    } if (props.userName === props.users[3].userName) {
+    } if (props.userName === props.users[8].userName) {
         linkTo = "/crewFour";
-    } if (props.userName === props.users[4].userName) {
+    } if (props.userName === props.users[9].userName) {
         linkTo = "/crewFive";
     }
 
