@@ -23,7 +23,8 @@ class HolidayList extends React.Component {
         const scrollPosition = localStorage.getItem('scrollPosition2')
         const mainWindow = document.getElementById('div2ToPrint')
         if (scrollPosition) {
-            mainWindow.scrollTo(0, parseInt(scrollPosition))
+            mainWindow.scrollTop = parseInt(scrollPosition);
+            mainWindow.scrollLeft = 0
         }
     }
 

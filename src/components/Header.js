@@ -4,28 +4,30 @@ import { connect } from 'react-redux'
 import { fetchUser } from '../actions'
 
 const Header = (props) => {
-    props.fetchUser()
-    let linkTo 
-    if (!props.users[5]) {
+    useEffect(() => {
+        props.fetchUser()
+    }, [])
+    let linkTo
+    if (!props.users[0]) {
         return null
     }
-    if  (props.userName === props.users[5].userName) {
-        linkTo = "/crewOne"
-    } if (props.userName === props.users[6].userName) {
-        linkTo = "/crewTwo"
-    } if (props.userName === props.users[7].userName) {
-        linkTo = "/crewThree"
-    } if (props.userName === props.users[8].userName) {
-        linkTo = "/crewFour"
-    } if (props.userName === props.users[9].userName) {
-        linkTo = "/crewFive"
+    if (props.userName === props.users[0].userName) {
+        linkTo = "/crewOne";
+    } if (props.userName === props.users[1].userName) {
+        linkTo = "/crewTwo";
+    } if (props.userName === props.users[2].userName) {
+        linkTo = "/crewThree";
+    } if (props.userName === props.users[3].userName) {
+        linkTo = "/crewFour";
+    } if (props.userName === props.users[4].userName) {
+        linkTo = "/crewFive";
     }
 
     return (
         <div className="ui pointing menu">
-            { props.userName !== "Admin" ? <Link to={linkTo} className="item">
+            {props.userName !== "Admin" ? <Link to={linkTo} className="item">
                 Summary
-            </Link> : null }
+            </Link> : null}
             <div className="right menu">
                 <Link to="/Holidays" className="item">
                     Book Holiday
@@ -39,16 +41,16 @@ const Header = (props) => {
             </div>
         </div>
     )
-}
+};
 
 const mapStateToProps = (state) => {
-    return { 
+    return {
         ...state.users[10],
         users: Object.values(state.users)
-    }
-}
+    };
+};
 
 export default connect(
     mapStateToProps,
     { fetchUser }
-)(Header)
+)(Header);
