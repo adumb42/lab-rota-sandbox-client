@@ -20,7 +20,7 @@ class CrewTwo extends React.Component {
     render() {
 
         let booked = this.props.holidays.filter(holiday => holiday.crewTwo === false).length
-        let swapsBooked = this.props.holidays.filter(holiday => holiday.crewTwo === null).length - 114
+        let swapsBooked = 114 - this.props.holidays.filter(holiday => holiday.crewTwo === null).length
         let remaining = 24 - booked
 
         return this.state.hidden ? (
