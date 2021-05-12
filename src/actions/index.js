@@ -150,7 +150,7 @@ export const fetchUserByCrew = () => async dispatch => {
 }
 
 export const updateUser = (updateUser) => async dispatch => {
-    const response = await holidays.put('/users/606add974f6df90015c503f0', updateUser);
+    const response = await holidays.put('/users/606adfac96959c1ddb5969bc', updateUser);
 
     dispatch({ type: UPDATE_USER, payload: response.data });
     history.push('/Holidays');   

@@ -19,7 +19,7 @@ class LoginPage extends React.Component {
             <div>
                 <h2 className="ui center aligned icon header">
                     <i className="circular users icon"></i>
-                    Wissington Day Crew Holidays & Rota
+                    Holidays & Day Crew Sandbox
                 </h2>
                 <div className="ui one column stackable center aligned page grid">
                     <div className="column twelve wide">

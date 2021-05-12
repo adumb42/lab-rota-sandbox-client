@@ -62,10 +62,10 @@ class HolidayList extends React.Component {
                 imgData2.src = '/BritishSugarLogo_150318.png'
                 const pdf = new jsPDF('p', 'mm', [297, 420])
                 pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight)
-                pdf.text(215, 20, `Laboratory Day Crew Rota`)
+                pdf.text(215, 20, `Sandbox Holiday Rota`)
                 pdf.text(234, 30, `${month}`)
                 pdf.addImage(imgData2, 'PNG', 210, 40)
-                pdf.save(`Day Crew Rota ${month}.pdf`)
+                pdf.save(`Sandbox Rota ${month}.pdf`)
                 this.pdfPrinted()
             })
     }
@@ -92,7 +92,7 @@ class HolidayList extends React.Component {
             let backgroundColorFive
 
             if (holiday.crewOneBench === 0 && holiday.crewOne === true) {
-                backgroundColorOne = { "backgroundColor": "silver" }
+                backgroundColorOne = { "backgroundColor": "white" }
             } if (holiday.crewOneBench === 1 && holiday.crewOne === true) {
                 backgroundColorOne = { "backgroundColor": "salmon" }
             } if (holiday.crewOneBench === 2 && holiday.crewOne === true) {
@@ -109,7 +109,7 @@ class HolidayList extends React.Component {
             
 
             if (holiday.crewTwoBench === 0 && holiday.crewTwo === true) {
-                backgroundColorTwo = { "backgroundColor": "silver" }
+                backgroundColorTwo = { "backgroundColor": "white" }
             } if (holiday.crewTwoBench === 1 && holiday.crewTwo === true) {
                 backgroundColorTwo = { "backgroundColor": "salmon" }
             } if (holiday.crewTwoBench === 2 && holiday.crewTwo === true) {
@@ -125,7 +125,7 @@ class HolidayList extends React.Component {
             }
 
             if (holiday.crewThreeBench === 0 && holiday.crewThree === true) {
-                backgroundColorThree = { "backgroundColor": "silver" }
+                backgroundColorThree = { "backgroundColor": "white" }
             } if (holiday.crewThreeBench === 1 && holiday.crewThree === true) {
                 backgroundColorThree = { "backgroundColor": "salmon" }
             } if (holiday.crewThreeBench === 2 && holiday.crewThree === true) {
@@ -141,7 +141,7 @@ class HolidayList extends React.Component {
             }
 
             if (holiday.crewFourBench === 0 && holiday.crewFour === true) {
-                backgroundColorFour = { "backgroundColor": "silver" }
+                backgroundColorFour = { "backgroundColor": "white" }
             } if (holiday.crewFourBench === 1 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "salmon" }
             } if (holiday.crewFourBench === 2 && holiday.crewFour === true) {
@@ -153,7 +153,7 @@ class HolidayList extends React.Component {
             } if (holiday.crewFourBench === 5 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "orange" }
             } if (holiday.crewFourBench === 6 && holiday.crewFour === true) {
-                backgroundColorFour = { "backgroundColor": "grey" }
+                backgroundColorFour = { "backgroundColor": "white" }
             } if (holiday.crewFourBench === 7 && holiday.crewFour === true) {
                 backgroundColorFour = { "backgroundColor": "orange" }
             } if (holiday.crewFourBench === 8 && holiday.crewFour === true) {
@@ -161,7 +161,7 @@ class HolidayList extends React.Component {
             }
 
             if (holiday.crewFiveBench === 0 && holiday.crewFive === true) {
-                backgroundColorFive = { "backgroundColor": "silver" }
+                backgroundColorFive = { "backgroundColor": "white" }
             } if (holiday.crewFiveBench === 1 && holiday.crewFive === true) {
                 backgroundColorFive = { "backgroundColor": "salmon" }
             } if (holiday.crewFiveBench === 2 && holiday.crewFive === true) {
@@ -189,14 +189,14 @@ class HolidayList extends React.Component {
                                 "border": "none",
                                 "backgroundColor": "transparent"
                             }}>
-                            <option value="0">NIR</option>
-                            <option value="1">PHX</option>
-                            <option value="2">WS</option>
-                            <option value="3">WWT</option>
-                            <option value="4">UTI</option>
-                            <option value="5">SPT</option>
-                            <option value="6">SDO</option>
-                            <option value="7">BIOT</option>
+                            <option value="0">ABC</option>
+                            <option value="1">EFG</option>
+                            <option value="2">HIJ</option>
+                            <option value="3">KLM</option>
+                            <option value="4">OPQ</option>
+                            <option value="5">RST</option>
+                            <option value="6">UVW</option>
+                            <option value="7">XYZ</option>
                         </select>
                     break
                 default: 
@@ -215,14 +215,14 @@ class HolidayList extends React.Component {
                                 "border": "none",
                                 "backgroundColor": "transparent"
                             }}>
-                            <option value="0">NIR</option>
-                            <option value="1">PHX</option>
-                            <option value="2">WS</option>
-                            <option value="3">WWT</option>
-                            <option value="4">UTI</option>
-                            <option value="5">SPT</option>
-                            <option value="6">SDO</option>
-                            <option value="7">BIOT</option>
+                            <option value="0">ABC</option>
+                            <option value="1">EFG</option>
+                            <option value="2">HIJ</option>
+                            <option value="3">KLM</option>
+                            <option value="4">OPQ</option>
+                            <option value="5">RST</option>
+                            <option value="6">UVW</option>
+                            <option value="7">XYZ</option>
                         </select> 
                     break
                 default:
@@ -241,14 +241,14 @@ class HolidayList extends React.Component {
                                 "border": "none",
                                 "backgroundColor": "transparent"
                             }}>
-                            <option value="0">NIR</option>
-                            <option value="1">PHX</option>
-                            <option value="2">WS</option>
-                            <option value="3">WWT</option>
-                            <option value="4">UTI</option>
-                            <option value="5">SPT</option>
-                            <option value="6">SDO</option>
-                            <option value="7">BIOT</option>
+                            <option value="0">ABC</option>
+                            <option value="1">EFG</option>
+                            <option value="2">HIJ</option>
+                            <option value="3">KLM</option>
+                            <option value="4">OPQ</option>
+                            <option value="5">RST</option>
+                            <option value="6">UVW</option>
+                            <option value="7">XYZ</option>
                         </select>
                     break
                 default: 
@@ -267,15 +267,14 @@ class HolidayList extends React.Component {
                                 "border": "none",
                                 "backgroundColor": "transparent"
                             }}>
-                            <option value="0">NIR</option>
-                            <option value="1">PHX</option>
-                            <option value="2">WS</option>
-                            <option value="3">WWT</option>
-                            <option value="4">UTI</option>
-                            <option value="5">SPT</option>
-                            <option value="6">SDO</option>
-                            <option value="7">TACT</option>
-                            <option value="8">BIOT</option>
+                            <option value="0">ABC</option>
+                            <option value="1">EFG</option>
+                            <option value="2">HIJ</option>
+                            <option value="3">KLM</option>
+                            <option value="4">OPQ</option>
+                            <option value="5">RST</option>
+                            <option value="6">UVW</option>
+                            <option value="7">XYZ</option>
                         </select>
                     break
                 default: 
@@ -294,14 +293,14 @@ class HolidayList extends React.Component {
                                 "border": "none",
                                 "backgroundColor": "transparent"
                             }}>
-                            <option value="0">NIR</option>
-                            <option value="1">PHX</option>
-                            <option value="2">WS</option>
-                            <option value="3">WWT</option>
-                            <option value="4">UTI</option>
-                            <option value="5">SPT</option>
-                            <option value="6">SDO</option>
-                            <option value="7">BIOT</option>
+                            <option value="0">ABC</option>
+                            <option value="1">EFG</option>
+                            <option value="2">HIJ</option>
+                            <option value="3">KLM</option>
+                            <option value="4">OPQ</option>
+                            <option value="5">RST</option>
+                            <option value="6">UVW</option>
+                            <option value="7">XYZ</option>
                         </select>
                     break
                 default: 
